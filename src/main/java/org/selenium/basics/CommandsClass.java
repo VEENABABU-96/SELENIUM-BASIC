@@ -1,6 +1,8 @@
 package org.selenium.basics;
 
-	import org.openqa.selenium.By;
+	import java.util.List;
+
+import org.openqa.selenium.By;
 	import org.openqa.selenium.WebDriver;
 	import org.openqa.selenium.WebElement;
 	import org.openqa.selenium.chrome.ChromeDriver;
@@ -21,10 +23,41 @@ package org.selenium.basics;
 			login_button.click();
 			
 		}
-
+		public void VerifyLinkText()
+		{
+			WebDriver driver=new ChromeDriver();
+			driver.get("https://demo.guru99.com/test/newtours/index.php");
+			driver.manage().window().maximize();
+			WebElement destination_field=driver.findElement(By.linkText("your destination"));
+			destination_field.click();
+			
+		}
+		
+		public void verifyPartialLinkText()
+		{
+			
+			WebDriver driver=new ChromeDriver();
+			driver.get("https://demo.guru99.com/test/newtours/index.php");
+			driver.manage().window().maximize();
+			WebElement destination_field=driver.findElement(By.partialLinkText("destination"));
+			destination_field.click();			
+		}
+		
+		public void totalNoOfTagsInTheApplication()
+		{
+			WebDriver driver=new ChromeDriver();
+			driver.get("https://demo.guru99.com/test/newtours/index.php");
+			driver.manage().window().maximize();
+			List<WebElement> inputtype = driver.findElements(By.tagName("td"));
+			int inputsize=inputtype.size();
+			System.out.println("No.of input tag is "+inputsize);
+		}
 		public static void main(String[] args) {
-			CommandsName obj = new CommandsName();
-			obj.VerifySwaglabLogin();
+			CommandsClass obj = new CommandsClass();
+			//obj.VerifySwaglabLogin();
+			//obj.VerifyLinkText();
+			//obj.verifyPartialLinkText();
+			obj.totalNoOfTagsInTheApplication();
 
 		}
 
