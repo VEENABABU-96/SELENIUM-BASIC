@@ -27,11 +27,50 @@ public class Demowebshopregistration {
 		WebElement register=driver.findElement(By.id("register-button"));
 		register.click();
 	}
+	public void VerifyIsSelected()
+	{
+		boolean ismaleselected;
+		WebDriver driver = new ChromeDriver();
+		driver.get("https://demowebshop.tricentis.com/register");
+		driver.manage().window().maximize();
+		WebElement gender_male=driver.findElement(By.xpath("//input[@id='gender-male']"));
+		ismaleselected=gender_male.isSelected();
+		System.out.println("Male element before selected" + ismaleselected);
+		gender_male.click();
+		ismaleselected=gender_male.isSelected();
+		System.out.println("Male element after selected "+ismaleselected);
+		driver.close();
+
+	}
+	
+	public void verifyIsenabled()
+	{
+		
+		WebDriver driver = new ChromeDriver();
+		driver.get("https://demowebshop.tricentis.com/");
+		driver.manage().window().maximize();
+		WebElement subscribe_button=driver.findElement(By.xpath("//input[@id='newsletter-subscribe-button']"));
+		boolean issubscribebuttonisenabled=subscribe_button.isEnabled();
+		System.out.println("Subscribe button is enabled or not "+issubscribebuttonisenabled);
+		driver.close();
+	}
+	public void verifyIsdisplayed()
+	{
+		WebDriver driver = new ChromeDriver();
+		driver.get("https://demowebshop.tricentis.com/");
+		driver.manage().window().maximize();
+		WebElement vote_button=driver.findElement(By.xpath("//input[@id='vote-poll-1']"));
+		boolean isvotebuttondisplayed=vote_button.isDisplayed();
+		System.out.println("vote button displayed or not" + isvotebuttondisplayed);
+		driver.close();
+	}
 
 	public static void main(String[] args) {
 		Demowebshopregistration obj = new Demowebshopregistration();
-		obj.verifyDemoWebshopRegistration();
-
+		//obj.verifyDemoWebshopRegistration();
+		//obj.verifyIsenabled();
+		obj.verifyIsdisplayed();
+		//obj.VerifyIsSelected();
 	}
 
 }
