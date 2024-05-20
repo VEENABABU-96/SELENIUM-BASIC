@@ -1,8 +1,11 @@
 package org.selenium.basics;
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
 
 public class Demowebshopregistration {
 	public void verifyDemoWebshopRegistration()
@@ -64,13 +67,79 @@ public class Demowebshopregistration {
 		System.out.println("vote button displayed or not" + isvotebuttondisplayed);
 		driver.close();
 	}
+	
+	public void verifyValuesFromDropdown()
+	{
+		WebDriver driver = new ChromeDriver();
+		driver.get("https://demo.guru99.com/test/newtours/register.php");
+		driver.manage().window().maximize();
+		WebElement country_dropdown=driver.findElement(By.xpath("//select[@name='country']"));
+		Select select=new Select(country_dropdown); //reference for SELECT class
+		//select.selectByVisibleText("ANDORRA"); //handling dropdown using TEXT method
+		//select.selectByIndex(4); //handling dropdown using INDEX method
+		select.selectByValue("AUSTRIA"); //handling dropdown using VALUE method
+		WebElement first_selection=select.getFirstSelectedOption();
+		System.out.println(first_selection.getText());
+		}
 
+	public void verifyTotalNoOfValue()
+	{
+		WebDriver driver = new ChromeDriver();
+		driver.get("https://demo.guru99.com/test/newtours/register.php");
+		driver.manage().window().maximize();
+		WebElement country_dropdown=driver.findElement(By.xpath("//select[@name='country']"));
+		Select select=new Select(country_dropdown);
+		List<WebElement> dropdownlist=select.getOptions();
+		System.out.println("Total number of dropdown" + dropdownlist.size());
+		
+	}
+	
+	public void verifyMultiSelectOptionFromDropdown()
+	{
+		WebDriver driver = new ChromeDriver();
+		driver.get("https://selenium.qabible.in/select-input.php");
+		driver.manage().window().maximize();
+		WebElement dropdown_multiselect=driver.findElement(By.xpath("//select[@id='multi-select-field']"));
+		Select select=new Select(dropdown_multiselect);
+		boolean selected_values=select.isMultiple();
+		System.out.println("Check whether value are selected " +selected_values);
+		select.selectByIndex(2);
+		select.selectByIndex(0);
+		List<WebElement> listofselectedoption=select.getAllSelectedOptions();
+		for(WebElement e:listofselectedoption)
+	{
+		System.out.println(e.getText());
+	}
+		select.deselectByIndex(0);
+	}
+	
+	public void verifyColorFromtheDropdown()
+	{
+		WebDriver driver=new ChromeDriver();
+		driver.get("https://selenium.qabible.in/select-input.php");
+		driver.manage().window().maximize();
+		WebElement colorselection=driver.findElement(By.xpath("//select[@id='single-input-field']"));
+		Select select=new Select(colorselection);
+		//select.selectByVisibleText("Red");
+		//select.selectByIndex(1);
+		//select.selectByValue("Green");
+		//WebElement firstselectedvalue=select.getFirstSelectedOption();
+		//System.out.println(firstselectedvalue.getText());
+		List<WebElement>colordropdown=select.getOptions(); 	
+		System.out.println("Total no.of dropdown " +colordropdown.size());
+		;
+		
+	}
 	public static void main(String[] args) {
 		Demowebshopregistration obj = new Demowebshopregistration();
 		//obj.verifyDemoWebshopRegistration();
 		//obj.verifyIsenabled();
-		obj.verifyIsdisplayed();
+		//obj.verifyIsdisplayed();
 		//obj.VerifyIsSelected();
+		//obj.verifyValuesFromDropdown();
+		//obj.verifyTotalNoOfValue();
+		//obj.verifyMultiSelectOptionFromDropdown();
+		obj.verifyColorFromtheDropdown();
 	}
 
 }
