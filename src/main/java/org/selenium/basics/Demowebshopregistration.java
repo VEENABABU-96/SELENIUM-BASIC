@@ -1,6 +1,7 @@
 package org.selenium.basics;
 import java.util.List;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -130,6 +131,71 @@ public class Demowebshopregistration {
 		;
 		
 	}
+	
+	public void verifySimpleAlert()
+	{
+		WebDriver driver=new ChromeDriver();
+		driver.get("https://demoqa.com/alerts");
+		driver.manage().window().maximize();
+		WebElement clickme_button=driver.findElement(By.xpath("//button[@class='btn btn-primary']"));
+		clickme_button.click();
+		Alert alert = driver.switchTo().alert();
+		alert.accept();
+	}
+	
+	public void verifyConfirmationAlert()
+	{
+		WebDriver driver=new ChromeDriver();
+		driver.get("https://demoqa.com/alerts");
+		driver.manage().window().maximize();
+		WebElement clickme=driver.findElement(By.xpath("//button[@id='confirmButton']"));
+		clickme.click();
+		Alert alert=driver.switchTo().alert();
+		String text=alert.getText();
+		System.out.println("Confirmation alert" +text);
+		alert.dismiss();
+		WebElement confirmationmessage=driver.findElement(By.xpath("//span[@id='confirmResult']"));
+		String confirmation_message=confirmationmessage.getText();
+		System.out.println("Confirmation meaasge " +confirmation_message );
+	}
+	
+	public void verifyPromptAlert()
+	{
+		WebDriver driver=new ChromeDriver();
+		driver.get("https://demoqa.com/alerts");
+		driver.manage().window().maximize();
+		WebElement promptalert=driver.findElement(By.xpath("//button[@id='promtButton']"));
+		promptalert.click();
+		Alert alert=driver.switchTo().alert();
+		String prompt_alert=alert.getText();
+		System.out.println("Prompt Alert: " + prompt_alert);
+		alert.sendKeys("Ammu");
+		alert.accept();
+		WebElement promptresult=driver.findElement(By.xpath("//span[@id='promptResult']"));
+		String result= promptresult.getText();
+		System.out.println("Prompt Message is: " +result);
+		
+	}
+	
+	public void deleteCustomer()
+	{
+		WebDriver driver=new ChromeDriver();
+		driver.get("https://demo.guru99.com/test/delete_customer.php");
+		driver.manage().window().maximize();
+		WebElement userid=driver.findElement(By.xpath("//input[@name='cusid']"));
+		userid.sendKeys("1234");
+		WebElement submitbutton=driver.findElement(By.xpath("//input[@name='submit']"));
+		submitbutton.click();
+		Alert alert=driver.switchTo().alert();
+		String alert_msg=alert.getText();
+		System.out.println("Delete warning Message is: " +alert_msg );
+		alert.accept();
+		Alert alertmsg=driver.switchTo().alert();
+		String dltmsg=alert.getText();
+		System.out.println("Delete Message is: " +dltmsg );
+		alert.accept();
+		driver.close();
+	}
 	public static void main(String[] args) {
 		Demowebshopregistration obj = new Demowebshopregistration();
 		//obj.verifyDemoWebshopRegistration();
@@ -139,7 +205,11 @@ public class Demowebshopregistration {
 		//obj.verifyValuesFromDropdown();
 		//obj.verifyTotalNoOfValue();
 		//obj.verifyMultiSelectOptionFromDropdown();
-		obj.verifyColorFromtheDropdown();
+		//obj.verifyColorFromtheDropdown();
+		//obj.verifySimpleAlert();
+		//obj.verifyConfirmationAlert();
+		//obj.verifyPromptAlert();
+		obj.deleteCustomer();
 	}
 
 }
