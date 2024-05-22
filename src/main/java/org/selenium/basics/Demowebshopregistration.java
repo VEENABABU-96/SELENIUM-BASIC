@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
 public class Demowebshopregistration {
@@ -195,7 +196,64 @@ public class Demowebshopregistration {
 		System.out.println("Delete Message is: " +dltmsg );
 		alert.accept();
 		driver.close();
+		
 	}
+	
+	public void verifyRightClick()
+	{
+		WebDriver driver=new ChromeDriver();
+		driver.get("https://demo.guru99.com/test/simple_context_menu.html");
+		driver.manage().window().maximize();
+		WebElement right_click=driver.findElement(By.xpath("//span[@class='context-menu-one btn btn-neutral']"));
+		Actions action=new Actions(driver);
+		action.contextClick(right_click).build().perform();
+		;
+	}
+	public void verifyDoubleClick()
+	{
+		WebDriver driver=new ChromeDriver();
+		driver.get("https://demo.guru99.com/test/simple_context_menu.html");
+		driver.manage().window().maximize();
+		WebElement double_click=driver.findElement(By.xpath("//button[text()='Double-Click Me To See Alert']"));
+		Actions action=new Actions(driver);
+		action.doubleClick(double_click).build().perform();
+		Alert alert=driver.switchTo().alert();
+		String alert_msg=alert.getText();
+		System.out.println("Alert meassage is "+alert_msg);
+		alert.accept();
+		driver.close();
+	}
+	
+	public void verifyDragAndDrop()
+	{
+		WebDriver driver=new ChromeDriver();
+		driver.get("https://demoqa.com/droppable");
+		driver.manage().window().maximize();
+		WebElement dragme=driver.findElement(By.xpath("//div[@id='draggable']"));
+		WebElement dropme=driver.findElement(By.xpath("//div[@id='droppableExample-tabpane-simple']//div[@id='droppable']"));
+		Actions action=new Actions(driver);
+		action.dragAndDrop(dragme, dropme).build().perform();
+	}
+	
+	public void verifyDragAndOffset()
+	{
+		WebDriver driver=new ChromeDriver();
+		driver.get("https://demoqa.com/dragabble");
+		driver.manage().window().maximize();
+		WebElement dragme=driver.findElement(By.xpath("//div[@id='dragBox']"));
+		Actions action=new Actions(driver);
+		action.dragAndDropBy(dragme, 50,100).build().perform();
+	}
+	
+	public void verifyMouseHover()
+	{
+		WebDriver driver=new ChromeDriver();
+		driver.get("https://demoqa.com/menu/");
+		driver.manage().window().maximize();
+		WebElement mousehover=driver.findElement(By.xpath("//a[text()='Main Item 2']"));
+		Actions action =new Actions(driver);
+		action.moveToElement(mousehover).build().perform();
+		}
 	public static void main(String[] args) {
 		Demowebshopregistration obj = new Demowebshopregistration();
 		//obj.verifyDemoWebshopRegistration();
@@ -209,7 +267,12 @@ public class Demowebshopregistration {
 		//obj.verifySimpleAlert();
 		//obj.verifyConfirmationAlert();
 		//obj.verifyPromptAlert();
-		obj.deleteCustomer();
+		//obj.deleteCustomer();
+		//obj.verifyRightClick();
+		//obj.verifyDoubleClick();
+		//obj.verifyDragAndDrop();
+		//obj.verifyDragAndOffset();
+		obj.verifyMouseHover();
 	}
 
 }
