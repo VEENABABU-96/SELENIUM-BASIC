@@ -1,5 +1,7 @@
 package org.selenium.basics;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -254,6 +256,64 @@ public class Demowebshopregistration {
 		Actions action =new Actions(driver);
 		action.moveToElement(mousehover).build().perform();
 		}
+	
+	public void verifyFileupload()
+	{
+		WebDriver driver=new ChromeDriver();
+		driver.get("https://demo.guru99.com/test/upload/");
+		driver.manage().window().maximize();
+		WebElement choosefile=driver.findElement(By.xpath("//input[@id='uploadfile_0']"));
+		choosefile.sendKeys("C:\\Users\\veena\\eclipse-workspace\\SELENIUM-BASIC\\src\\main\\resources\\Assignment4.docx");
+		WebElement checkbox=driver.findElement(By.xpath("//input[@id='terms']"));
+		checkbox.click();
+		WebElement submitbutton=driver.findElement(By.xpath("//button[@id='submitbutton']"));
+		submitbutton.click();
+	}
+	
+	public void verifyFrames()
+	{
+		WebDriver driver=new ChromeDriver();
+		driver.get("https://demoqa.com/frames");
+		driver.manage().window().maximize();
+		List<WebElement> No_of_frame_tags=driver.findElements(By.tagName("iframe"));
+		int frame_tags=No_of_frame_tags.size();
+		System.out.println("No.of frame tags:" +frame_tags);
+		//driver.switchTo().frame(1);
+		//driver.switchTo().frame("frame1");
+		WebElement frame1=driver.findElement(By.cssSelector("#frame1"));
+		driver.switchTo().frame(frame1);
+		WebElement textfind=driver.findElement(By.id("sampleHeading"));
+		System.out.println("Text in the frame: " +textfind.getText());
+	}
+	
+	public void multipleWindowhandling()
+	{
+		WebDriver driver=new ChromeDriver();
+		driver.get("https://demo.guru99.com/popup.php");
+		driver.manage().window().maximize();
+		String getwindowhandle=driver.getWindowHandle();
+		System.out.println(getwindowhandle);
+		WebElement clickhere=driver.findElement(By.xpath("//a[text()='Click Here']"));
+		clickhere.click();
+		Set<String> windowhandles_id=driver.getWindowHandles();
+		System.out.println(windowhandles_id);
+		Iterator<String> value=windowhandles_id.iterator();
+		while(value.hasNext())
+		{
+			String handleid=value.next();
+			if(!handleid.equals(getwindowhandle))
+			{
+				driver.switchTo().window(handleid);
+				WebElement email_field=driver.findElement(By.xpath("//input[@name=\"emailid\"]"));
+				email_field.sendKeys("veena@gmail.com");
+				WebElement submit_button=driver.findElement(By.xpath("//input[@name='btnLogin']"));
+				submit_button.click();
+				//driver.close();
+			}
+		}
+		driver.switchTo().defaultContent(); 
+		driver.quit();
+	}
 	public static void main(String[] args) {
 		Demowebshopregistration obj = new Demowebshopregistration();
 		//obj.verifyDemoWebshopRegistration();
@@ -272,7 +332,10 @@ public class Demowebshopregistration {
 		//obj.verifyDoubleClick();
 		//obj.verifyDragAndDrop();
 		//obj.verifyDragAndOffset();
-		obj.verifyMouseHover();
+		//obj.verifyMouseHover();
+		//obj.verifyFileupload();
+		//obj.verifyFrames();
+		obj.multipleWindowhandling();
 	}
 
 }
