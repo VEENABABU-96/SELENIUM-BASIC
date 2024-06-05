@@ -1,9 +1,19 @@
 package org.testngcommand;
 
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
+import java.time.Duration;
+import java.util.NoSuchElementException;
+
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -15,7 +25,7 @@ public void homePageTitle()
 	driver.get("https://demowebshop.tricentis.com/");
 	String actualtitle=driver.getTitle();
 	System.out.println("Actual Title: " +actualtitle);
-	String expectedtitle="Demo Web Shop";
+	String expectedtitle="Demo Web hop";
 	Assert.assertEquals(actualtitle, expectedtitle,"Invalid Title");
 }
 @Test
@@ -72,6 +82,74 @@ public void verifyIsdisplayed()
 	WebElement vote_button=driver.findElement(By.xpath("//input[@id='vote-poll-1']"));
 	boolean isvotebuttondisplayed=vote_button.isDisplayed();
 	Assert.assertTrue(isvotebuttondisplayed,"Vote Button Not Displayed");
+}
+@Test
+public void verifyJavascriptExecutor()
+{
+	driver.get("https://demowebshop.tricentis.com/");
+	JavascriptExecutor js=(JavascriptExecutor)driver;
+	js.executeScript("document.getElementById(\"newsletter-email\").value=\"veena@gmail.com\"");
+	js.executeScript("document.getElementById(\"newsletter-subscribe-button\").click()");
+}
+
+@Test
+public void verifyVerticalScroll()
+{
+	driver.get("https://demowebshop.tricentis.com/");
+	JavascriptExecutor js=(JavascriptExecutor)driver;
+	js.executeScript("window.scrollBy(0,100)");
+}
+
+@Test
+public void verifyDemowebshopLogin()
+{
+	driver.get("https://demowebshop.tricentis.com/login");
+	JavascriptExecutor js=(JavascriptExecutor)driver;
+	js.executeScript("document.getElementById(\"Email\").value=\"veena@gmail.com\"");
+	js.executeScript("document.getElementById(\"Password\").value=\"123456\"");
+	//js.executeScript()
+	
+	}
+
+public void verifyKeyboardEvents() throws AWTException
+{
+	driver.get("https://demowebshop.tricentis.com/");
+	Robot robot=new Robot();
+	robot.keyPress(KeyEvent.VK_CONTROL);
+	robot.keyPress(KeyEvent.VK_T);
+	robot.keyRelease(KeyEvent.VK_CONTROL);
+	robot.keyRelease(KeyEvent.VK_T);
+}
+@Test
+public void verifyWait()
+{
+	driver.get("https://demoqa.com/alerts");
+	driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10)); 
+	//WebDriverWait wait =new WebDriverWait(driver,Duration.ofSeconds(20)); 
+	//wait.until( ExpectedConditions.visibilityOfElementLocated(By.id("timerAlertButton")));
+	WebElement clickme = driver.findElement(By.id("timerAlertButton"));
+	 clickme.click();
+	 //wait.until(ExpectedConditions.alertIsPresent());
+	 Alert alert =driver.switchTo().alert();
+	 alert.accept();
+}
+@Test
+public void verifyFluentWait()
+{
+	driver.get("https://demoqa.com/alerts");
+	JavascriptExecutor js=(JavascriptExecutor)driver;
+	js.executeScript("window.scrollTo(0,document.body.scrollHeight)");
+	FluentWait wait =new FluentWait(driver);
+	wait.withTimeout(Duration.ofSeconds(20));
+	wait.pollingEvery(Duration.ofSeconds(2));
+	wait.ignoring(NoSuchElementException.class);
+	
+	WebElement clickme = driver.findElement(By.id("timerAlertButton"));
+	clickme.click();
+	wait.until(ExpectedConditions.alertIsPresent());
+	
+	Alert alert=driver.switchTo().alert();
+	alert.accept();
 }
 
 }
